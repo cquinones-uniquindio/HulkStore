@@ -1,0 +1,43 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button mat-icon-button>
+      <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+    </button>
+    <h1>Hulk Store</h1>
+
+    <span class="menu-spacer"></span>
+
+    <div>
+
+      <a mat-button [routerLink]="'/shirts'"> Shirts </a>
+      <a mat-button [routerLink]="'/glasses'"> Glasses </a>
+      <a mat-button [routerLink]="'/comics'"> Comics </a>
+      <a mat-button [routerLink]="'/toys'"> Toys </a>
+      <a mat-button [routerLink]="'/accesories'"> Accesories </a>
+
+    </div>
+
+  </mat-toolbar-row>
+
+
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav mode="side" #sidenav id="sidenav" [class.menu-open]="isMenuOpen" [class.menu-close]="!isMenuOpen" opened>
+    <mat-nav-list>
+
+      <a class="nav-link" routerLink="stock" routerLinkActive="active">Stock</a>
+
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div style="height: 88vh;">
+
+      <ng-container #form>
+      </ng-container>
+      <router-outlet></router-outlet>
+      
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
