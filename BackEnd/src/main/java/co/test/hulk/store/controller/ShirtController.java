@@ -25,6 +25,12 @@ import co.test.hulk.store.exception.ResourceNotFoundException;
 import co.test.hulk.store.model.Shirt;
 import co.test.hulk.store.repository.ShirtRepository;
 
+/**
+ * Class that allow control all transactions of shirts
+ * 
+ * @author CarlosEQ
+ *
+ */
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1")
@@ -35,12 +41,24 @@ public class ShirtController {
 	@PersistenceContext
 	private EntityManager em;
 
+	/**
+	 * Get a list of the shirts storaged
+	 * 
+	 * @return list of shirts
+	 */
 	@RequestMapping("/shirts")
 	public List getAllShirts() {
 		List lista = shirtRepository.findAll();
 		return lista;
 	}
 
+	/**
+	 * Allow get a shirt by his id
+	 * 
+	 * @param shirtId shirt's id
+	 * @return the shirt if it is, else an exception
+	 * @throws ResourceNotFoundException
+	 */
 	@GetMapping("/shirts/{id}")
 	public ResponseEntity<Shirt> getShirtById(@PathVariable(value = "id") Long shirtId)
 			throws ResourceNotFoundException {
@@ -49,11 +67,25 @@ public class ShirtController {
 		return ResponseEntity.ok().body(shirt);
 	}
 
+	/**
+	 * Allow to save a shirt in the database
+	 * 
+	 * @param comic shirt to save
+	 * @return the storaged shirt
+	 */
 	@PostMapping("/shirts")
 	public Shirt createShirt(@Valid @RequestBody Shirt shirt) {
 		return shirtRepository.save(shirt);
 	}
 
+	/**
+	 * Allow to update an shirt by his id
+	 * 
+	 * @param shirtId      shirt's id
+	 * @param shirtDetails the updated shirt
+	 * @return response of the shirt
+	 * @throws ResourceNotFoundException if the shirt is not storaged
+	 */
 	@PutMapping("/shirt/{id}")
 	public ResponseEntity<Shirt> updateShirt(@PathVariable(value = "id") Long shirtId,
 			@Valid @RequestBody Shirt shirtDetails) throws ResourceNotFoundException {
@@ -65,6 +97,13 @@ public class ShirtController {
 		return ResponseEntity.ok(updatedShirt);
 	}
 
+	/**
+	 * Allow to delete an shirt by his id
+	 * 
+	 * @param shirtId shirt's id
+	 * @return response of the shirtId
+	 * @throws ResourceNotFoundException if the shirt is not storaged
+	 */
 	@DeleteMapping("/shirts/{id}")
 	public Map<String, Boolean> deleteShirt(@PathVariable(value = "id") Long shirtId) throws ResourceNotFoundException {
 		Shirt shirt = shirtRepository.findById(shirtId)

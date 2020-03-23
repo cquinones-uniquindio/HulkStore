@@ -1,0 +1,5 @@
+package co.test.hulk.store.model;
+
+public class Toy {
+
+}

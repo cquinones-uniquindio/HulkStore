@@ -25,6 +25,11 @@ import co.test.hulk.store.exception.ResourceNotFoundException;
 import co.test.hulk.store.model.Glass;
 import co.test.hulk.store.repository.GlassRepository;
 
+/**
+ * Class that allow control all transactions of glass
+ * @author CarlosEQ
+ *
+ */
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1")
@@ -35,12 +40,24 @@ public class GlassController {
 	@PersistenceContext
 	private EntityManager em;
 
+	/**
+	 * Get a list of the glasses storaged
+	 * 
+	 * @return list of glasses
+	 */
 	@RequestMapping("/glasses")
 	public List getAllGlasses() {
 		List lista = glassReposiory.findAll();
 		return lista;
 	}
 
+	/**
+	 * Allow get a glass by his id
+	 * 
+	 * @param glassId glass's id
+	 * @return the glass if it is, else an exception
+	 * @throws ResourceNotFoundException
+	 */
 	@GetMapping("/glasses/{id}")
 	public ResponseEntity<Glass> getGlassById(@PathVariable(value = "id") Long glassId)
 			throws ResourceNotFoundException {
@@ -49,11 +66,25 @@ public class GlassController {
 		return ResponseEntity.ok().body(glass);
 	}
 
+	/**
+	 * Allow to save a glass in the database
+	 * 
+	 * @param comic glass to save
+	 * @return the storaged glass
+	 */
 	@PostMapping("/glasses")
 	public Glass createGlass(@Valid @RequestBody Glass glass) {
 		return glassReposiory.save(glass);
 	}
 
+	/**
+	 * Allow to update an glass by his id
+	 * 
+	 * @param glassId      glass's id
+	 * @param glassDetails the updated glass
+	 * @return response of the glass
+	 * @throws ResourceNotFoundException if the glass is not storaged
+	 */
 	@PutMapping("/glasses/{id}")
 	public ResponseEntity<Glass> updateGlass(@PathVariable(value = "id") Long glassId,
 			@Valid @RequestBody Glass glassDetails) throws ResourceNotFoundException {
@@ -65,6 +96,13 @@ public class GlassController {
 		return ResponseEntity.ok(updatedGlass);
 	}
 
+	/**
+	 * Allow to delete an glass by his id
+	 * 
+	 * @param glassId glass's id
+	 * @return response of the glassId
+	 * @throws ResourceNotFoundException if the glass is not storaged
+	 */
 	@DeleteMapping("/glasses/{id}")
 	public Map<String, Boolean> deleteGlass(@PathVariable(value = "id") Long glassId) throws ResourceNotFoundException {
 		Glass glass = glassReposiory.findById(glassId)

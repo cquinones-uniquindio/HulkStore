@@ -1,0 +1,5 @@
+package co.test.hulk.store.controller;
+
+public class ToyController {
+
+}

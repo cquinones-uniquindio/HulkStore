@@ -1,0 +1,96 @@
+package co.test.hulk.store.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import co.test.hulk.store.exception.ResourceNotFoundException;
+import co.test.hulk.store.model.Toy;
+import co.test.hulk.store.repository.ToyRepository;
+
+/**
+ * Class that allow control all transactions of shirts
+ * 
+ * @author CarlosEQ
+ *
+ */
+@CrossOrigin(origins = "http://localhost:4200")
+@RestController
+@RequestMapping("/api/v1")
+public class ToyController {
+	@Autowired
+	private ToyRepository toyRepository;
+
+	@PersistenceContext
+	private EntityManager em;
+
+	@RequestMapping("/toys")
+	public List getAllToys() {
+		List lista = toyRepository.findAll();
+		return lista;
+	}
+
+	@GetMapping("/toys/{id}")
+	public ResponseEntity<Toy> getToyById(@PathVariable(value = "id") Long toyId) throws ResourceNotFoundException {
+		Toy toy = toyRepository.findById(toyId)
+				.orElseThrow(() -> new ResourceNotFoundException("Toy not found for this id :: " + toyId));
+		return ResponseEntity.ok().body(toy);
+	}
+
+	@PostMapping("/toys")
+	public Toy createToy(@Valid @RequestBody Toy toy) {
+		return toyRepository.save(toy);
+	}
+
+	@PutMapping("/toys/{id}")
+	public ResponseEntity<Toy> updateToy(@PathVariable(value = "id") Long toyId, @Valid @RequestBody Toy toyDetails)
+			throws ResourceNotFoundException {
+		Toy toy = toyRepository.findById(toyId)
+				.orElseThrow(() -> new ResourceNotFoundException("Toy not found for this id :: " + toyId));
+
+		toy.setName(toyDetails.getName());
+		final Toy updatedToy = toyRepository.save(toy);
+		return ResponseEntity.ok(updatedToy);
+	}
+
+	@PutMapping("/toys/{id}/{newUnits}")
+	public ResponseEntity<Toy> updateUnitsToy(@PathVariable(value = "id") Long toyId,
+			@PathVariable(value = "units") int newUnits, @Valid @RequestBody Toy toyDetails)
+			throws ResourceNotFoundException {
+		System.out.println("asdfñkjhkj");
+		Toy toy = toyRepository.findById(toyId)
+				.orElseThrow(() -> new ResourceNotFoundException("Toy not found for this id :: " + toyId));
+
+		toy.setUnits(toyDetails.getUnits());
+		final Toy updatedToy = toyRepository.save(toy);
+		return ResponseEntity.ok(updatedToy);
+	}
+
+	@DeleteMapping("/toys/{id}")
+	public Map<String, Boolean> deleteToy(@PathVariable(value = "id") Long toyId) throws ResourceNotFoundException {
+		Toy toy = toyRepository.findById(toyId)
+				.orElseThrow(() -> new ResourceNotFoundException("Toy not found for this id :: " + toyId));
+
+		toyRepository.delete(toy);
+		Map<String, Boolean> response = new HashMap<>();
+		response.put("deleted", Boolean.TRUE);
+		return response;
+	}
+}

@@ -1,0 +1,34 @@
+package co.test.hulk.store.controller;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class GlassControllerTest {
+
+	@Test
+	public void testGetAllGlasses() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testGetGlassById() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testCreateGlass() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testUpdateGlass() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testDeleteGlass() {
+		fail("Not yet implemented");
+	}
+
+}

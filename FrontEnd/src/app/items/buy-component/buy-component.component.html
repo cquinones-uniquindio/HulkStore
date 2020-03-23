@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>Item to buy {{data.description}}</h1>
+<div mat-dialog-content>
+
+    <form #buyForm="ngForm">
+        
+            <mat-label>Are you sure?</mat-label>
+           
+        
+    </form>
+</div>
+<div mat-dialog-actions>
+    <!-- <button mat-button (click)="onNoClick()">Back</button> -->
+     <button mat-button (click) = "back()" >Back</button>
+    <!-- <button mat-button [mat-dialog-close]="data.amounts" cdkFocusInitial>Ok</button> -->
+    <button mat-button color="primary" (click)="validator()">Ok</button>
+</div>

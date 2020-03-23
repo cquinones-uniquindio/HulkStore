@@ -25,6 +25,12 @@ import co.test.hulk.store.exception.ResourceNotFoundException;
 import co.test.hulk.store.model.Toy;
 import co.test.hulk.store.repository.ToyRepository;
 
+/**
+ * Class that allow control all transactions of toys
+ * 
+ * @author CarlosEQ
+ *
+ */
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1")
@@ -35,12 +41,23 @@ public class ToyController {
 	@PersistenceContext
 	private EntityManager em;
 
+	/**
+	 * Get a list of the toy storaged
+	 * @return list of toys
+	 */
 	@RequestMapping("/toys")
 	public List getAllToys() {
 		List lista = toyRepository.findAll();
 		return lista;
 	}
-
+	
+	/**
+	 * Allow get a toy by his id
+	 * 
+	 * @param toyId toy's id
+	 * @return the toy if it is, else an exception
+	 * @throws ResourceNotFoundException
+	 */
 	@GetMapping("/toys/{id}")
 	public ResponseEntity<Toy> getToyById(@PathVariable(value = "id") Long toyId) throws ResourceNotFoundException {
 		Toy toy = toyRepository.findById(toyId)
@@ -48,11 +65,25 @@ public class ToyController {
 		return ResponseEntity.ok().body(toy);
 	}
 
+	/**
+	 * Allow to save a toy in the database
+	 * 
+	 * @param comic toy to save
+	 * @return the storaged toy
+	 */
 	@PostMapping("/toys")
 	public Toy createToy(@Valid @RequestBody Toy toy) {
 		return toyRepository.save(toy);
 	}
 
+	/**
+	 * Allow to update an toy by his id
+	 * 
+	 * @param toytId toy's id
+	 * @param toyDetails the updated toy
+	 * @return response of the toy
+	 * @throws ResourceNotFoundException if the toy is not storaged
+	 */
 	@PutMapping("/toys/{id}")
 	public ResponseEntity<Toy> updateToy(@PathVariable(value = "id") Long toyId, @Valid @RequestBody Toy toyDetails)
 			throws ResourceNotFoundException {
@@ -64,6 +95,13 @@ public class ToyController {
 		return ResponseEntity.ok(updatedToy);
 	}
 
+	/**
+	 * Allow to delete an toy by his id
+	 * 
+	 * @param toyId toy's id
+	 * @return response of the toyId
+	 * @throws ResourceNotFoundException if the toy is not storaged
+	 */
 	@DeleteMapping("/toys/{id}")
 	public Map<String, Boolean> deleteToy(@PathVariable(value = "id") Long toyId) throws ResourceNotFoundException {
 		Toy toy = toyRepository.findById(toyId)

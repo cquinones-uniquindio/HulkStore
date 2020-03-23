@@ -25,6 +25,12 @@ import co.test.hulk.store.exception.ResourceNotFoundException;
 import co.test.hulk.store.model.Accesory;
 import co.test.hulk.store.repository.AccesoryRepository;
 
+/**
+ * Class that allow control all transactions with comics
+ * 
+ * @author CarlosEQ
+ *
+ */
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1")
@@ -35,12 +41,24 @@ public class AccesoryController {
 	@PersistenceContext
 	private EntityManager em;
 
+	/**
+	 * Get a list of the accesories storaged
+	 * 
+	 * @return list of accesorries
+	 */
 	@RequestMapping("/accesories")
 	public List getAllAccesories() {
 		List list = accesoryRepository.findAll();
 		return list;
 	}
 
+	/**
+	 * Allow get an accesory by his id
+	 * 
+	 * @param accesoryId accesory's id
+	 * @return the accesory if it is, else an exception
+	 * @throws ResourceNotFoundException
+	 */
 	@GetMapping("/accesories/{id}")
 	public ResponseEntity<Accesory> getAccesoryById(@PathVariable(value = "id") Long accesoryId)
 			throws ResourceNotFoundException {
@@ -49,11 +67,25 @@ public class AccesoryController {
 		return ResponseEntity.ok().body(accesory);
 	}
 
+	/**
+	 * Allow tu save an accesory in the database
+	 * 
+	 * @param accesory accesory to save
+	 * @return the storaged accesory
+	 */
 	@PostMapping("/accesories")
 	public Accesory createAccesory(@Valid @RequestBody Accesory accesory) {
 		return accesoryRepository.save(accesory);
 	}
 
+	/**
+	 * Allow to update an accesory by his id
+	 * 
+	 * @param accesoryId      accesory's id
+	 * @param accesoryDetails the updated accesory
+	 * @return response of the accesory
+	 * @throws ResourceNotFoundException if the accesory is not storaged
+	 */
 	@PutMapping("/accesories/{id}")
 	public ResponseEntity<Accesory> updateAccesory(@PathVariable(value = "id") Long accesoryId,
 			@Valid @RequestBody Accesory accesoryDetails) throws ResourceNotFoundException {
@@ -65,6 +97,13 @@ public class AccesoryController {
 		return ResponseEntity.ok(updatedAccesory);
 	}
 
+	/**
+	 * Allow to delete an accesory by his id
+	 * 
+	 * @param accesoryId accesory's id
+	 * @return response of the accesory
+	 * @throws ResourceNotFoundException if the accesory is not storaged
+	 */
 	@DeleteMapping("/accesories/{id}")
 	public Map<String, Boolean> deleteAccesory(@PathVariable(value = "id") Long accesoryId)
 			throws ResourceNotFoundException {

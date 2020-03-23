@@ -1,0 +1,42 @@
+.container-form {
+    width: 100%;
+    padding: 50px;
+    background-color: #fafafa;
+    margin: 1rem;
+    padding: 1rem;
+    border: 2px solid #ccc;
+    /* IMPORTANTE */
+    text-align: center;
+  }
+
+
+  .wrap {
+    width: 90%;
+    max-width: 900px;
+    padding: 40px;
+    margin: auto;
+    background: #fff;
+    box-shadow: 0px 0px 3px grey; 
+    }
+  
+ 
+  #campo1{
+      height: 80px;
+      width: 100%;
+      margin-right: auto;
+      margin-left: auto;
+      
+  }
+  #combo-item{
+    height: 80px;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+choose-file{
+    height: 80px;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+}

@@ -1,0 +1,73 @@
+package co.test.hulk.store.controller;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.fail;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+
+import co.test.hulk.store.model.Accesory;
+import co.test.hulk.store.repository.AccesoryRepository;
+
+public class AccesoryControllerTest {
+	
+	@MockBean
+	private AccesoryRepository accesoryRepository;
+
+	@MockBean
+	private TestEntityManager em;
+	
+	@Autowired
+	private MockMvc mvc;
+	
+	@Before
+    public final void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+    }
+
+	@Test
+	public void testGetAllAccesories() throws Exception {
+		
+		List<Accesory> array = new ArrayList<Accesory>();
+		
+		Accesory accesory = new Accesory("Infinty gauntlet");
+		array.add(accesory);
+		Mockito.when(accesoryRepository.findAll()).thenReturn(array);
+		mvc.perform(get("/api/v1/accesory").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(jsonPath("$[0].name", is(array.get(0).getName())));		
+	}
+	
+
+	@Test
+	public void testGetAccesoryById() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testCreateAccesory() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testUpdateAccesory() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testDeleteAccesory() {
+		fail("Not yet implemented");
+	}
+
+}

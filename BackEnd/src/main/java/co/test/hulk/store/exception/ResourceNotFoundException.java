@@ -4,6 +4,11 @@ package co.test.hulk.store.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+/**
+ * Class than throws an exception
+ * @author CarlosEQ
+ *
+ */
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class ResourceNotFoundException extends Exception{
 
@@ -11,5 +16,6 @@ public class ResourceNotFoundException extends Exception{
 
 	public ResourceNotFoundException(String message){
     	super(message);
+    	
     }
 }

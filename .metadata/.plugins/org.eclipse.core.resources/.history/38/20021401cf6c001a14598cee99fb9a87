@@ -1,0 +1,34 @@
+package co.test.hulk.store.controller;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class AccesoryControllerTest {
+
+	@Test
+	public void testGetAllAccesories() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testGetAccesoryById() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testCreateAccesory() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testUpdateAccesory() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testDeleteAccesory() {
+		fail("Not yet implemented");
+	}
+
+}

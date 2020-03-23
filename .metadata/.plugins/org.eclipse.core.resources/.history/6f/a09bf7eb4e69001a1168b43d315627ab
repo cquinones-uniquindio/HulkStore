@@ -1,0 +1,101 @@
+package co.test.hulk.store.controller;
+
+
+
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale.Category;
+import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import co.test.hulk.store.exception.ResourceNotFoundException;
+import co.test.hulk.store.model.Toy;
+import co.test.hulk.store.repository.ToyRepository;
+
+
+@CrossOrigin(origins = "http://localhost:4200")
+@RestController
+@RequestMapping("/api/v1")
+public class ToyController {
+	@Autowired
+	private ToyRepository toyRpository;
+
+//    @GetMapping("/categories")
+//    public List<Category> getAllcategories() {
+//        return categoryRepository.findAll();
+//    }
+	@PersistenceContext
+	   private EntityManager em;
+
+	@RequestMapping("/toys")
+	public List getAllToys() {
+		List lista = toyRpository.findAll();
+		return lista;
+	}
+
+	@GetMapping("/toys/{id}")
+	public ResponseEntity<Toy> getToyById(@PathVariable(value = "id") Long toyId)
+			throws ResourceNotFoundException {
+		Toy toy = toyRpository.findById(toyId)
+				.orElseThrow(() -> new ResourceNotFoundException("Toy not found for this id :: " + toyId));
+		return ResponseEntity.ok().body(toy);
+	}
+	
+	
+//	@GetMapping("/categories/{id}/products")	
+//	public List<Product> findProductByCategoryId(@PathVariable(value = "id") Long id_category){
+//
+//		String sql = "SELECT p.id, p.name, p.description, p.price, p.weight, p.id_category from products p join categories c on c.id = p.id_category where c.id = " + id_category+"";
+//	    
+//	    Query q = em.createNativeQuery(sql);
+//	    
+//	    return q.getResultList();
+//	}
+
+	@PostMapping("/toys")
+	public Toy createToy(@Valid @RequestBody Toy toy) {
+		return toyRpository.save(toy);
+	}
+
+	@PutMapping("/toys/{id}")
+	public ResponseEntity<Toy> updateToy(@PathVariable(value = "id") Long toyId,
+			@Valid @RequestBody Toy toyDetails) throws ResourceNotFoundException {
+		Toy toy = toyRpository.findById(toyId)
+				.orElseThrow(() -> new ResourceNotFoundException("Toy not found for this id :: " + toyId));
+
+		category.setName(toyDetails.getName());
+		final Category updatedCategory = toyRpository.save(category);
+		return ResponseEntity.ok(updatedCategory);
+	}
+
+	@DeleteMapping("/categories/{id}")
+	public Map<String, Boolean> deleteCategory(@PathVariable(value = "id") Long categoryId)
+			throws ResourceNotFoundException {
+		Category category = toyRpository.findById(categoryId)
+				.orElseThrow(() -> new ResourceNotFoundException("Category not found for this id :: " + categoryId));
+
+		toyRpository.delete(category);
+		Map<String, Boolean> response = new HashMap<>();
+		response.put("deleted", Boolean.TRUE);
+		return response;
+	}
+}
+
+

@@ -1,0 +1,94 @@
+package co.test.hulk.store.model;
+
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+ 
+@Entity
+@Table(name="toys")
+public class Toy {
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private long id;
+    private String name;
+    @Lob
+    private Object picture;
+    private String type;
+    private String description;
+    private int units;
+    private int amount;
+    
+//    @OneToMany(mappedBy="category", cascade=CascadeType.ALL)
+//    private List <Product> products;
+// 
+    public Toy() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+ 
+    public Toy(String name, String picture) {
+        this.name = name;
+        this.picture = picture;
+    }
+ 
+    public long getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public Object getPicture() {
+		return picture;
+	}
+    public void setPicture(Object picture) {
+		this.picture = picture;
+	}
+    public String getType() {
+		return type;
+	}
+    public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getUnits() {
+		return units;
+	}
+
+	public void setUnits(int units) {
+		this.units = units;
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+    
+ 
+    
+ 
+}

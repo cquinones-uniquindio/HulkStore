@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
  
@@ -18,7 +19,12 @@ public class Comic {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
     private String name;
-    
+    @Lob
+    private String picture;
+    private String type;
+    private String description;
+    private int units;
+    private int amount;
 //    @OneToMany(mappedBy="category", cascade=CascadeType.ALL)
 //    private List <Product> products;
 // 
@@ -43,7 +49,42 @@ public class Comic {
     public void setName(String name) {
         this.name = name;
     }
+    public String getType() {
+		return type;
+	}
+    public void setType(String type) {
+		this.type = type;
+	}
+    public String getPicture() {
+		return picture;
+	}
+    public void setPicture(String picture) {
+		this.picture = picture;
+	}
     
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getUnits() {
+		return units;
+	}
+
+	public void setUnits(int units) {
+		this.units = units;
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
     
 //    public List<Product> getProducts() {
 //        return products;

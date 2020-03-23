@@ -1,0 +1,71 @@
+package co.test.hulk.store.controller;
+
+import javax.persistence.EntityManager;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+
+import ch.qos.logback.core.status.Status;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+
+import co.test.hulk.store.model.Comic;
+import co.test.hulk.store.repository.ComicRepository;
+import static org.mockito.Mockito.when;
+import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
+@SpringBootTest
+@RunWith(SpringRunner.class)
+@AutoConfigureMockMvc
+public class ComicControllerTest {
+	
+	@MockBean
+	private ComicRepository comicRepository;
+
+	@MockBean
+	private EntityManager em;
+	
+	@Autowired
+	private MockMvc mvc;
+	
+
+	@Test
+	public void testGetAllComics() throws Exception {
+		
+		ArrayList<Comic> array = new ArrayList<Comic>();
+		
+		array.add(new Comic("Superman"));
+		
+		when(comicRepository.findAll()).thenReturn(new ArrayList<Comic>());
+		mvc.perform(get("/api/v1/comics").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(jsonPath("$[0].name", is(array.get(0).getName())));		
+	}
+
+	@Test
+	public void testGetComicById() {
+	}
+
+	@Test
+	public void testCreateComic() {
+	}
+
+	@Test
+	public void testUpdateComic() {
+		
+	}
+
+	@Test
+	public void testDeleteComic() {
+	}
+
+}

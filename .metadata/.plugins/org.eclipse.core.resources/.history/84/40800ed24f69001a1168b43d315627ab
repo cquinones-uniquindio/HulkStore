@@ -1,0 +1,81 @@
+package co.test.hulk.store.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import co.test.hulk.store.exception.ResourceNotFoundException;
+import co.test.hulk.store.model.Glass;
+import co.test.hulk.store.repository.GlassRepository;
+
+@CrossOrigin(origins = "http://localhost:4200")
+@RestController
+@RequestMapping("/api/v1")
+public class GlassController {
+	@Autowired
+	private GlassRepository glassReposiory;
+
+
+	@PersistenceContext
+	private EntityManager em;
+
+	@RequestMapping("/glasses")
+	public List getAllGlasses() {
+		List lista = glassReposiory.findAll();
+		return lista;
+	}
+
+	@GetMapping("/glasses/{id}")
+	public ResponseEntity<Glass> getGlassById(@PathVariable(value = "id") Long glassId)
+			throws ResourceNotFoundException {
+		Glass glass = glassReposiory.findById(glassId)
+				.orElseThrow(() -> new ResourceNotFoundException("Glass not found for this id :: " + glassId));
+		return ResponseEntity.ok().body(glass);
+	}
+
+
+	@PostMapping("/glasses")
+	public Glass createGlass(@Valid @RequestBody Glass glass) {
+		return glassReposiory.save(glass);
+	}
+
+	@PutMapping("/glasses/{id}")
+	public ResponseEntity<Glass> updateGlass(@PathVariable(value = "id") Long glassId,
+			@Valid @RequestBody Glass glassDetails) throws ResourceNotFoundException {
+		Glass glass = glassReposiory.findById(glassId)
+				.orElseThrow(() -> new ResourceNotFoundException("Glass not found for this id :: " + glassId));
+
+		glass.setName(glassDetails.getName());
+		final Glass updatedGlass = glassReposiory.save(glass);
+		return ResponseEntity.ok(updatedGlass);
+	}
+
+	@DeleteMapping("/glasses/{id}")
+	public Map<String, Boolean> deleteGlass(@PathVariable(value = "id") Long glassId)
+			throws ResourceNotFoundException {
+		Glass glass = glassReposiory.findById(glassId)
+				.orElseThrow(() -> new ResourceNotFoundException("Glass not found for this id :: " + glassId));
+
+		glassReposiory.delete(glass);
+		Map<String, Boolean> response = new HashMap<>();
+		response.put("deleted", Boolean.TRUE);
+		return response;
+	}
+}
